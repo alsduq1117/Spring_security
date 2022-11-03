@@ -24,6 +24,9 @@ public class User {
     private String password;
     private String email;
     private String role; //Role_User, Role_Admin
+
+    private String provider;  //google
+    private String providerId;  //google sub 번호
     @CreationTimestamp
     private Timestamp createDate;
 }

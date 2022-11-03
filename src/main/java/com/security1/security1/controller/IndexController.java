@@ -3,6 +3,8 @@ package com.security1.security1.controller;
 import com.security1.security1.model.User;
 import com.security1.security1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +65,18 @@ public class IndexController {
         userRepository.save(user); // 회원가입 잘됨, 비밀번호:1234 => 시큐리티로 로그인을 할 수 없음, 이유는 패스우드가 암호화가 안되있기 때문이다.
 
         return "redirect:/loginForm";  //redirect 붙이면 함수 호출
+    }
+
+    @Secured("ROLE_ADMIN")    //@EnableGlobalMethodSecurity(securedEnabled = true) 로 활성화
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") //하나 Secured  여러개 PreAuthorize 사용 //PreAuthorize = 함수가 시작하기 전 , PostAuthorize 함수가 끝나고 난 후
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "데이터정보";
     }
 
 
