@@ -7,21 +7,28 @@ package com.security1.security1.config.auth;
 //User오브젝트 타입 => UserDetails 타입 객체
 
 import com.security1.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
+@Data
+//PrincipalDetails 에 UserDetails, OAuth2User 다중상속해서 2가지 타입 모두 Authentication 안에 들어갈 수 있도록 한다.
 //Security Session => Authentication => UserDetails(PrincipalDetails)
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션
 
     public PrincipalDetails(User user){
         this.user = user;
     }
-    
+
+
+
     // 해당 User의 권한을 리턴하는 곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,5 +74,17 @@ public class PrincipalDetails implements UserDetails {
         //user.getLoginDate();
         //현재 시간 - 로긴 시간 => 1년을 초과하면 return false;
         return true;
+    }
+
+
+    // OAuth2User @Override 부분
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
