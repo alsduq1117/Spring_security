@@ -2,10 +2,7 @@ package com.security1.security1.model;
 
 
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -17,6 +14,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
     @Id // pk
     @GeneratedValue(strategy = GenerationType.IDENTITY)

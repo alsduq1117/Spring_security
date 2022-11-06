@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Component;
 
 
 //보통의 로그인 절차 1.코드 받기(인증) , 2.엑세스토큰(권한) , 3.사용자프로필 정보를 가져와서 4-1.그 정보를 토대로 회원가입을 자동으로 진행시키기도 함
@@ -25,7 +26,8 @@ public class SecurityConfig {
     private PrincipalOauth2UserService principalOauth2UserService;
 
     // 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
-    @Bean
+
+     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
@@ -59,3 +61,4 @@ public class SecurityConfig {
 
 
 }
+

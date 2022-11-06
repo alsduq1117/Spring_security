@@ -50,6 +50,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return collect;
     }
 
+
     @Override
     public String getPassword() {
         return user.getPassword();

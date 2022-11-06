@@ -1,0 +1,10 @@
+security:
+  oauth2:
+    client:
+      registration:
+        facebook:
+          client-id: 804618280649668
+          client-secret: 32288a98dc6aedbbf36451795e35d3b3
+          scope:
+          - email
+          - public_profile
