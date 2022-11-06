@@ -3,6 +3,7 @@ package com.security1.security1.config.oauth;
 import com.security1.security1.config.auth.PrincipalDetails;
 import com.security1.security1.config.oauth.provider.FacebookUserInfo;
 import com.security1.security1.config.oauth.provider.GoogleUserInfo;
+import com.security1.security1.config.oauth.provider.NaverUserInfo;
 import com.security1.security1.config.oauth.provider.OAuth2UserInfo;
 import com.security1.security1.model.User;
 import com.security1.security1.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 
 
 @Service
@@ -44,8 +46,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("facebook")){
             System.out.println("페이스북 로그인 요청");
             oAuth2UserInfo = new FacebookUserInfo(oauth2User.getAttributes());
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+            System.out.println("네이버 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
         }else {
-            System.out.println("우리는 구글과 페이스북만 지원해요");
+            System.out.println("우리는 구글과 페이스북과 네이버만 지원해요");
         }
         String provider = oAuth2UserInfo.getProvider(); // google
         String providerId = oAuth2UserInfo.getProviderId();
@@ -58,6 +63,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         User userEntity = userRepository.findByUsername(username);
 
         if(userEntity==null){
+            System.out.println("OAuth 로그인이 최초입니다.");
             userEntity=User.builder()
                     .username(username)
                     .password(password)
@@ -68,7 +74,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .build();
             userRepository.save(userEntity);
         }else {
-
+            System.out.println("로그인을 이미 한적이있습니다");
         }
 
       return new PrincipalDetails(userEntity,oauth2User.getAttributes()); //OAuth2User 리턴
