@@ -119,7 +119,7 @@ public class IndexController {
     @GetMapping("/data")
     public @ResponseBody String data(){
         return "데이터정보";
-    } //
+    }
 
 
 }
